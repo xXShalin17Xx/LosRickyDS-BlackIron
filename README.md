@@ -1,4 +1,4 @@
-# LosRickyDS
-Integrantes: Leandro Martín Delgado, Leonardo Joel Arenas, Adrián Santiago Mamani
-Roles:            (TEAM)                (Product Owner)        (SCRUM Master)
+# LosRickyDS - Black Iron
+Integrantes: Leandro Martín Delgado (TEAM), Leonardo Joel Arenas (Product Owner), Adrián Santiago Mamani (SCRUM Master)
+
 
