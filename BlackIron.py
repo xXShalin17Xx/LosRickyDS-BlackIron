@@ -12,7 +12,7 @@ cursor.execute('''
 );
 ''')
 
-cursor.execute(''' 
+cursor.execute('''  
                
     CREATE TABLE IF NOT EXISTS MetodoDePago(
     CVC/CVV int,
@@ -41,11 +41,10 @@ cursor.execute('''
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS Pedido(
     IDPedido INT PRIMARY KEY AUTOINCREMENT,
-    NumUsuario INT,
     Producto VARCHAR(50),
+    NumUsuario INT,
     NombreUsu VARCHAR(50),
     ApellidoUsu VARCHAR(50),
-    Tipo VARCHAR(10),
     Precio DECIMAL(10,2),
     FOREIGN KEY (Producto) references Producto(Nombre),
     FOREIGN KEY (NumUsuario) references Usuario(NumUsuario)
@@ -54,6 +53,22 @@ cursor.execute('''
     
 );
 ''')
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS PedidoKITS(
+    IDPedido INT PRIMARY KEY AUTOINCREMENT,
+    ProductosEnKit VARCHAR(50),
+    NumUsuario INT,
+    NombreUsu VARCHAR(50),
+    ApellidoUsu VARCHAR(50),
+    Precio DECIMAL(10,2),
+    FOREIGN KEY (Producto) references Producto(Nombre),
+    FOREIGN KEY (NumUsuario) references Usuario(NumUsuario)
+    FOREIGN KEY (NombreUsu) references Usuario(Nombre),
+    FOREIGN KEY (ApellidoUsu) references Usuario(Apellido)
+    
+);
+''')
+
 
 cursor.execute(''' 
     CREATE TABLE IF NOT EXISTS Facturacion(
@@ -79,6 +94,9 @@ def Pedido():
     | Producto: {producto[0]} | Familia: {producto[1]} | Caracteristica: {producto[2]} | Precio: { producto[3]} |
     -------------------------------------------------------------------------------------
     ''')
+
+     
+
     Nombre = input("Ingrese su nombre")
     Apellido = input("ingrese su apellido")
     Email = input("Ingrese su correo electronico")
@@ -86,3 +104,14 @@ def Pedido():
     INSERT INTO Usuario (Nombre, Apellido, Email)
  ''',Nombre, Apellido, Email)
     
+    NumTarjeta = int(input("Ingrese los números de su tarjeta"))
+    CVCoCVV = int(input("Ingrese la clave CVC/CVV"))
+    if NumTarjeta <13 or NumTarjeta >19:
+        print("El número de la tarjeta es invalido")
+    else:
+        if CVCoCVV >4 or CVCoCVV <3:
+            print("Clave CVC/CVV")
+        else:
+            cursor.execute(''' 
+        INSERT INTO MetodoDePago(CVC/CVV, Num_T, fecha_vencimiento, nombreTitular, apellidoTitular)
+     ''',NumTarjeta,CVCoCVV, Nombre, Apellido)
